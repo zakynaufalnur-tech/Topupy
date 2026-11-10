@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C TOP Y - Game Top Up</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ font-family:Poppins,sans-serif;
+ background:#090914;color:white;
+}
+header{
+ background:#111124;padding:18px 7%;
+ display:flex;justify-content:space-between;
+ align-items:center;position:sticky;top:0;z-index:10;
+ border-bottom:1px solid #292447;
+}
+.logo{font-size:25px;font-weight:800;color:#a78bfa}
+.logo span{color:white}
+header button{
+ background:#8055ed;color:white;border:0;
+ padding:10px 18px;border-radius:10px;
+}
+.hero{
+ padding:55px 7%;text-align:center;
+ background:radial-gradient(circle at top,#352064,#090914 70%);
+}
+.hero h1{font-size:38px;margin-bottom:12px}
+.hero h1 span{color:#a78bfa}
+.hero p{color:#aaa;margin-bottom:22px}
+.hero a{
+ display:inline-block;background:#8254ed;
+ color:white;padding:12px 25px;border-radius:10px;
+ text-decoration:none;font-weight:bold;
+}
+.container{padding:30px 7%;max-width:1150px;margin:auto}
+.section-title{font-size:21px;margin-bottom:20px}
+.games{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:15px;
+}
+.game{
+ background:#17172b;border:2px solid transparent;
+ border-radius:15px;overflow:hidden;cursor:pointer;
+ transition:.2s;
+}
+.game.active{border-color:#a78bfa;transform:translateY(-3px)}
+.game img{width:100%;height:115px;object-fit:cover}
+.game h3{text-align:center;padding:12px;font-size:13px}
+.game:hover{border-color:#8055ed}
+.panel{
+ background:#151527;padding:22px;border-radius:17px;
+ margin-top:25px;border:1px solid #292747;
+}
+label{display:block;margin:15px 0 7px;color:#ddd;font-size:13px}
+input,select{
+ width:100%;padding:13px;background:#090914;
+ color:white;border:1px solid #383653;
+ border-radius:9px;outline:none;
+}
+.nominals{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+.nominal{
+ background:#202039;border:1px solid #393552;
+ border-radius:10px;padding:13px 5px;
+ color:white;cursor:pointer;text-align:center;
+ font-size:12px;
+}
+.nominal.active{border:2px solid #a78bfa;background:#30234d}
+.nominal b{display:block;margin-bottom:5px}
+.payments{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.payment{
+ padding:15px 5px;text-align:center;
+ background:#202039;border:1px solid #393552;
+ color:white;border-radius:10px;cursor:pointer;
+}
+.payment.active{border:2px solid #a78bfa}
+.pay-btn{
+ width:100%;padding:15px;margin-top:22px;
+ border:0;border-radius:10px;
+ background:linear-gradient(90deg,#7544e9,#a855f7);
+ color:white;font-size:16px;font-weight:bold;cursor:pointer;
+}
+.pay-btn:hover{opacity:.9}
+.note{font-size:11px;color:#aaa;margin-top:10px}
+footer{text-align:center;padding:30px;color:#777;font-size:12px}
+.modal{
+ display:none;position:fixed;inset:0;background:#000c;
+ z-index:20;align-items:center;justify-content:center;padding:15px;
+}
+.modal-content{
+ background:#17172b;border:1px solid #514078;
+ padding:25px;border-radius:17px;width:100%;max-width:400px;
+ text-align:center;
+}
+.modal-content h2{margin-bottom:10px}
+.qr{
+ width:190px;height:190px;margin:20px auto;
+ background:white;color:#111;display:flex;
+ align-items:center;justify-content:center;
+ border:9px solid white;
+ font-size:16px;font-weight:bold;
+}
+.modal-content p{font-size:13px;color:#bbb;margin:10px 0}
+.close{
+ background:#33334b;color:white;padding:11px;
+ border:0;border-radius:8px;width:100%;margin-top:10px;
+}
+.success{font-size:55px;color:#4ade80;margin:10px}
+@media(max-width:650px){
+ .games{grid-template-columns:repeat(2,1fr)}
+ .hero h1{font-size:29px}
+ .container{padding:25px 5%}
+ .nominals{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">C TOP <span>Y.</span></div>
+ <button onclick="document.getElementById('order').scrollIntoView()">Top Up</button>
+</header>
+
+<section class="hero">
+ <h1>TOP UP GAME <span>MUDAH!</span></h1>
+ <p>Isi diamond dan kebutuhan game favoritmu.</p>
+ <a href="#order">Mulai Top Up</a>
+</section>
+
+<main class="container">
+ <h2 class="section-title">🎮 Pilih Game</h2>
+
+ <div class="games">
+  <div class="game active" onclick="chooseGame(this,'Mobile Legends')">
+   <img src="https://placehold.co/400x220/24204c/ffffff?text=MOBILE+LEGENDS">
+   <h3>Mobile Legends</h3>
+  </div>
+  <div class="game" onclick="chooseGame(this,'Free Fire')">
+   <img src="https://placehold.co/400x220/542b27/ffffff?text=FREE+FIRE">
+   <h3>Free Fire</h3>
+  </div>
+  <div class="game" onclick="chooseGame(this,'PUBG Mobile')">
+   <img src="https://placehold.co/400x220/514022/ffffff?text=PUBG+MOBILE">
+   <h3>PUBG Mobile</h3>
+  </div>
+  <div class="game" onclick="chooseGame(this,'Genshin Impact')">
+   <img src="https://placehold.co/400x220/293c57/ffffff?text=GENSHIN">
+   <h3>Genshin Impact</h3>
+  </div>
+ </div>
+
+ <section class="panel" id="order">
+  <h2>🛒 Form Top Up</h2>
+
+  <label>Game dipilih</label>
+  <input id="game" value="Mobile Legends" readonly>
+
+  <label>User ID</label>
+  <input id="uid" placeholder="Masukkan User ID">
+
+  <label>Zone ID (jika diperlukan)</label>
+  <input id="zone" placeholder="Masukkan Zone ID">
+
+  <label>Pilih Nominal</label>
+  <div class="nominals" id="nominals"></div>
+
+  <label>Metode Pembayaran</label>
+  <div class="payments">
+   <div class="payment active" onclick="choosePay(this,'QRIS')">▦ QRIS</div>
+   <div class="payment" onclick="choosePay(this,'DANA')">🔵 DANA</div>
+   <div class="payment" onclick="choosePay(this,'Bank')">🏦 BANK</div>
+  </div>
+
+  <button class="pay-btn" onclick="checkout()">LANJUT PEMBAYARAN →</button>
+  <p class="note">DEMO: Tidak ada uang sungguhan yang diproses.</p>
+ </section>
+
+ <section class="panel">
+  <h2>📦 Riwayat Pesanan</h2>
+  <div id="history" style="margin-top:15px;color:#aaa;font-size:13px">
+   Belum ada pesanan.
+  </div>
+ </section>
+</main>
+
+<footer>
+ <h2 class="logo">C TOP Y.</h2>
+ <p>© 2026 C TOP Y - Game Top Up Demo</p>
+ <p>Fast • Easy • Secure</p>
+</footer>
+
+<div class="modal" id="modal">
+ <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+let selectedGame='Mobile Legends';
+let selectedPay='QRIS';
+let selectedNominal=null;
+
+const prices={
+ 'Mobile Legends':[
+ ['86 Diamonds',20000],
+ ['172 Diamonds',39000],
+ ['257 Diamonds',58000],
+ ['344 Diamonds',77000],
+ ['706 Diamonds',155000],
+ ['1412 Diamonds',305000]
+ ],
+ 'Free Fire':[
+ ['70 Diamonds',10000],
+ ['140 Diamonds',20000],
+ ['355 Diamonds',50000],
+ ['720 Diamonds',100000],
+ ['1450 Diamonds',200000],
+ ['2180 Diamonds',300000]
+ ],
+ 'PUBG Mobile':[
+ ['60 UC',15000],
+ ['325 UC',75000],
+ ['660 UC',150000],
+ ['1800 UC',375000],
+ ['3850 UC',750000],
+ ['8100 UC',1500000]
+ ],
+ 'Genshin Impact':[
+ ['60 Genesis Crystal',16000],
+ ['300 Genesis Crystal',79000],
+ ['980 Genesis Crystal',249000],
+ ['1980 Genesis Crystal',479000],
+ ['3280 Genesis Crystal',799000],
+ ['6480 Genesis Crystal',1599000]
+ ]
+};
+
+function renderNominals(){
+ let area=document.getElementById('nominals');
+ area.innerHTML='';
+ selectedNominal=null;
+
+ prices[selectedGame].forEach((item)=>{
+  let div=document.createElement('div');
+  div.className='nominal';
+  div.innerHTML='<b>'+item[0]+'</b>Rp '+item[1].toLocaleString('id-ID');
+  div.onclick=()=>{
+   document.querySelectorAll('.nominal').forEach(x=>x.classList.remove('active'));
+   div.classList.add('active');
+   selectedNominal=item;
+  };
+  area.appendChild(div);
+ });
+}
+
+function chooseGame(el,name){
+ document.querySelectorAll('.game').forEach(x=>x.classList.remove('active'));
+ el.classList.add('active');
+ selectedGame=name;
+ document.getElementById('game').value=name;
+ renderNominals();
+}
+
+function choosePay(el,name){
+ document.querySelectorAll('.payment').forEach(x=>x.classList.remove('active'));
+ el.classList.add('active');
+ selectedPay=name;
+}
+
+function checkout(){
+ let uid=document.getElementById('uid').value.trim();
+ let zone=document.getElementById('zone').value.trim();
+
+ if(!uid||!selectedNominal){
+  alert('Isi User ID dan pilih nominal terlebih dahulu!');
+  return;
+ }
+
+ let price=selectedNominal[1].toLocaleString('id-ID');
+
+ let info=selectedPay==='QRIS'
+ ? '<div class="qr">QRIS DEMO</div><p>Ini hanya tampilan simulasi, bukan kode QR pembayaran aktif.</p>'
+ : '<div style="font-size:45px;margin:20px">💳</div><p>Metode '+selectedPay+' dipilih.</p><p>Belum terhubung ke layanan pembayaran.</p>';
+
+ document.getElementById('modalContent').innerHTML=`
+ <h2>Konfirmasi Pesanan</h2>
+ <p>${selectedGame}</p>
+ <p>${selectedNominal[0]}</p>
+ <p>User ID: ${uid}</p>
+ <p>Zone ID: ${zone||'-'}</p>
+ <h2 style="color:#a78bfa">Rp ${price}</h2>
+ <p>Metode: ${selectedPay}</p>
+ ${info}
+ <button class="pay-btn" onclick="simulateSuccess()">SIMULASIKAN PEMBAYARAN BERHASIL</button>
+ <button class="close" onclick="closeModal()">Batal</button>
+ `;
+
+ document.getElementById('modal').style.display='flex';
+}
+
+function simulateSuccess(){
+ let price=selectedNominal[1].toLocaleString('id-ID');
+ document.getElementById('modalContent').innerHTML=`
+ <div class="success">✓</div>
+ <h2 style="color:#4ade80">Selamat!</h2>
+ <h3>Pembayaranmu berhasil!</h3>
+ <p>Ini adalah transaksi simulasi C TOP Y.</p>
+ <p>${selectedGame} - ${selectedNominal[0]}</p>
+ <p>Total: Rp ${price}</p>
+ <p>Status: DEMO BERHASIL</p>
+ <button class="pay-btn" onclick="saveHistory()">SELESAI</button>
+ `;
+}
+
+function saveHistory(){
+ let h=document.getElementById('history');
+ if(h.innerText==='Belum ada pesanan.')h.innerHTML='';
+ let item=document.createElement('p');
+ item.style.padding='12px';
+ item.style.borderBottom='1px solid #383653';
+ item.textContent=selectedGame+' | '+selectedNominal[0]+' | DEMO BERHASIL';
+ h.prepend(item);
+ closeModal();
+}
+
+function closeModal(){
+ document.getElementById('modal').style.display='none';
+}
+
+renderNominals();
+</script>
+</body>
+</html>
